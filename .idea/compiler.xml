@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="4-akka-fire-forget-AbstractActor" />
+        <module name="2-akka-create-reference-by-message" />
+        <module name="3-akka-fire-forget-UntypedAbstractActor" />
+        <module name="7-akka-request-dont-wsit-for-response" />
+        <module name="1-akka-create-reference-by-construction" />
+        <module name="5-message-immutability-problem" />
+        <module name="10-akka-broadcast-round-robin" />
+        <module name="6-akka-tell-to-and-forget" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>
