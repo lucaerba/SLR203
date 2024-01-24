@@ -12,6 +12,11 @@
         <option value="$PROJECT_DIR$/06tellToAndForget/pom.xml" />
         <option value="$PROJECT_DIR$/07RequestDontWaitForResponse/pom.xml" />
         <option value="$PROJECT_DIR$/10BroadcastRoundRobin/pom.xml" />
+        <option value="$PROJECT_DIR$/19CommunicationTopologyCreation/pom.xml" />
+        <option value="$PROJECT_DIR$/20UncontrolledFlooding/pom.xml" />
+        <option value="$PROJECT_DIR$/21ControlledFlooding/pom.xml" />
+        <option value="$PROJECT_DIR$/22shortestLengthFlooding/pom.xml" />
+        <option value="$PROJECT_DIR$/23DHT/pom.xml" />
       </list>
     </option>
   </component>

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>akka-patterns</groupId>
-    <artifactId>10-akka-broadcast-round-robin</artifactId>
+    <artifactId>21-akka-controlled-flooding</artifactId>
     <version>1.0</version>
 
     <properties>
@@ -49,7 +49,7 @@
                     <arguments>
                         <argument>-classpath</argument>
                         <classpath />
-                        <argument>demo.BroadcastRoundRobinPattern</argument>
+                        <argument>demo.ControlledFloodingPattern</argument>
                     </arguments>
                 </configuration>
             </plugin>

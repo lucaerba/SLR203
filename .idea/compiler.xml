@@ -6,15 +6,24 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="4-akka-fire-forget-AbstractActor" />
+        <module name="20-akka-uncontrolled-flooding" />
         <module name="2-akka-create-reference-by-message" />
-        <module name="3-akka-fire-forget-UntypedAbstractActor" />
         <module name="7-akka-request-dont-wsit-for-response" />
         <module name="1-akka-create-reference-by-construction" />
         <module name="5-message-immutability-problem" />
         <module name="10-akka-broadcast-round-robin" />
+        <module name="19-akka-communication-topology" />
+        <module name="22-akka-shortest-length-flooding" />
+        <module name="23-akka-dht" />
+        <module name="4-akka-fire-forget-AbstractActor" />
+        <module name="3-akka-fire-forget-UntypedAbstractActor" />
+        <module name="7-akka-request-dont-wait-for-response" />
+        <module name="21-akka-controlled-flooding" />
         <module name="6-akka-tell-to-and-forget" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="19-akka-uncontrolled-flooding" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
