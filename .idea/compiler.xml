@@ -17,6 +17,7 @@
         <module name="22-akka-shortest-length-flooding" />
         <module name="23-akka-simple-leader-election" />
         <module name="4-akka-fire-forget-AbstractActor" />
+        <module name="11-akka-convergecast" />
         <module name="3-akka-fire-forget-UntypedAbstractActor" />
         <module name="7-akka-request-dont-wait-for-response" />
         <module name="21-akka-controlled-flooding" />
