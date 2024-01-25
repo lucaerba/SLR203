@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>akka-patterns</groupId>
-    <artifactId>23-akka-dht</artifactId>
+    <artifactId>24-akka-dht</artifactId>
     <version>1.0</version>
 
     <properties>

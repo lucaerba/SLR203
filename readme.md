@@ -34,7 +34,7 @@ Here are the priorities for the SLR203 patterns:
 
 22: top priority V
 
-23: the "mini-project" pattern ! be careful, this one is very long and complex ! It is top priority !
+23: the "mini-project" pattern ! be careful, this one is very long and complex ! It is top priority ! 
 
 do the top priority first, then the medium and if you have time (but it might be boring) the others, but it's more interesting to do the 23 as soon as possible !
 
@@ -42,3 +42,4 @@ Notes: for the pattern 10, the scheduler "call" should be usually in the constru
 
 tarting pattern 10: when actors need references to other actors at the beginning, send the references by message preferably, even if those messages don't appear in the visual representation of the pattern (for the sake of simplicity)
 
+24: boh 

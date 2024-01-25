@@ -17,6 +17,8 @@
         <option value="$PROJECT_DIR$/21ControlledFlooding/pom.xml" />
         <option value="$PROJECT_DIR$/22shortestLengthFlooding/pom.xml" />
         <option value="$PROJECT_DIR$/23DHT/pom.xml" />
+        <option value="$PROJECT_DIR$/23ASimpleLeaderElectionAlgorithm/pom.xml" />
+        <option value="$PROJECT_DIR$/24DHT/pom.xml" />
       </list>
     </option>
   </component>
