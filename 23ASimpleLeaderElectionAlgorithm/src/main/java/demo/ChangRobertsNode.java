@@ -31,7 +31,7 @@ class LeaderElectedMessage {
 class SetNextNodeMessage {
     final ActorRef nextNode;
 
-    SetNextNodeMessage(ActorRef nextNode) {
+    public SetNextNodeMessage(ActorRef nextNode) {
         this.nextNode = nextNode;
     }
 }
@@ -49,7 +49,7 @@ public class ChangRobertsNode extends AbstractActor {
         this.participant = false;
     }
 
-    static Props props(int uid) {
+    public static Props props(int uid) {
         return Props.create(ChangRobertsNode.class, uid);
     }
 
@@ -85,18 +85,20 @@ public class ChangRobertsNode extends AbstractActor {
 
     private void handleElectionMessage(ElectionMessage message) {
 
-        System.out.println("Node " + uid + " received ElectionMessage from Node " + message.uid);
+        //System.out.println("Node " + uid + " received ElectionMessage from Node " + message.uid);
 
         if (message.uid > uid) {
             // Forward the election message
             System.out.println("Node " + uid + " forwarding ElectionMessage to Node " + nextNode.path().name());
-            nextNode.tell(new ElectionMessage(message.uid), self());
             participant = true;
+            nextNode.tell(new ElectionMessage(message.uid), self());
         } else if (message.uid < uid && !participant) {
             // Replace UID and send the updated election message
             System.out.println("Node " + uid + " updating UID and forwarding ElectionMessage to Node " + nextNode.path().name());
-            nextNode.tell(new ElectionMessage(uid), self());
             participant = true;
+            nextNode.tell(new ElectionMessage(uid), self());
+        }else if(!(message.uid == uid && participant)){
+            System.out.println("Node " + uid + " discarding ElectionMessage");
         }
         // else discard the election message
 
@@ -113,7 +115,7 @@ public class ChangRobertsNode extends AbstractActor {
 
         if (message.uid != uid) {
             // Forward the elected message
-            System.out.println("Node " + uid + " forwarding ElectedMessage to Node " + nextNode.path().name());
+            //System.out.println("Node " + uid + " forwarding ElectedMessage to Node " + nextNode.path().name());
             nextNode.tell(new ElectedMessage(message.uid), self());
         } else {
             // Leader discards the elected message, and the election is over

@@ -27,3 +27,21 @@ You have to print the paths of all actors under
 * "/deadLetters"
 * "/temp"
 * "/remote"
+
+New Actor Path: akka://ActorCreationSystem/user/a/actor1
+New Actor Path: akka://ActorCreationSystem/user/a/actor2
+Actor found! Path: akka://ActorCreationSystem/user/a/actor1
+Actor found! Path: akka://ActorCreationSystem/user/a
+Actor found! Path: akka://ActorCreationSystem/user/a/actor1
+Paths under /user:
+Actor found! Path: akka://ActorCreationSystem/user/a
+Paths under /system:
+Actor found! Path: akka://ActorCreationSystem/system/deadLetterListener
+Actor found! Path: akka://ActorCreationSystem/system/log1-Logging$DefaultLogger
+Actor found! Path: akka://ActorCreationSystem/system/eventStreamUnsubscriber-1
+Paths under /deadLetters:
+Actor not found for path: 1
+Paths under /temp:
+Actor not found for path: 1
+Paths under /remote:
+Actor not found for path: 1

@@ -1,8 +1,11 @@
 package demo;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import scala.concurrent.duration.Duration;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ControlledFloodingPattern {
 
@@ -38,22 +41,30 @@ public class ControlledFloodingPattern {
             actors.get(i).tell(new ActorNode.InitMessage(knownActors), ActorRef.noSender());
         }
 
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+
         // Start the flooding algorithm from actor A
-        actors.get(0).tell(new ActorNode.ControlledFloodMessage(0), ActorRef.noSender());
+        system.scheduler().scheduleOnce(
+                Duration.create(500, TimeUnit.MILLISECONDS),
+                () -> actors.get(0).tell(new ActorNode.ControlledFloodMessage(0), ActorRef.noSender()),
+                system.dispatcher()
+        );
 
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        actors.get(0).tell(new ActorNode.ControlledFloodMessage(1), ActorRef.noSender());
-        actors.get(0).tell(new ActorNode.ControlledFloodMessage(2), ActorRef.noSender());
-
+        // Start the flooding algorithm from actor A
+        system.scheduler().scheduleOnce(
+                Duration.create(1000, TimeUnit.MILLISECONDS),
+                () -> actors.get(0).tell(new ActorNode.ControlledFloodMessage(1), ActorRef.noSender()),
+                system.dispatcher()
+        );// Start the flooding algorithm from actor A
+        system.scheduler().scheduleOnce(
+                Duration.create(1000, TimeUnit.MILLISECONDS),
+                () -> actors.get(0).tell(new ActorNode.ControlledFloodMessage(2), ActorRef.noSender()),
+                system.dispatcher()
+        );
+        system.scheduler().scheduleOnce(
+                Duration.create(1500, TimeUnit.MILLISECONDS),
+                system::terminate,
+                system.dispatcher()
+        );
     }
 }
 

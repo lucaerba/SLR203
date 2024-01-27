@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="20-akka-uncontrolled-flooding" />
         <module name="24-akka-dht" />
+        <module name="18-akka-search-actors-with-name-or-path" />
         <module name="2-akka-create-reference-by-message" />
         <module name="7-akka-request-dont-wsit-for-response" />
         <module name="1-akka-create-reference-by-construction" />
@@ -21,6 +22,7 @@
         <module name="3-akka-fire-forget-UntypedAbstractActor" />
         <module name="7-akka-request-dont-wait-for-response" />
         <module name="21-akka-controlled-flooding" />
+        <module name="13-akka-publish-subscribe" />
         <module name="6-akka-tell-to-and-forget" />
       </profile>
     </annotationProcessing>

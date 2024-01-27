@@ -1,6 +1,9 @@
 package demo;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import scala.concurrent.duration.Duration;
+
+import java.util.concurrent.TimeUnit;
 
 public class SimpleLeaderElectionAlgorithm {
     public static void main(String[] args) {
@@ -23,30 +26,41 @@ public class SimpleLeaderElectionAlgorithm {
         node5.tell(new SetNextNodeMessage(node6), ActorRef.noSender());
         node6.tell(new SetNextNodeMessage(node1), ActorRef.noSender());
 
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         // Simulate a process noticing a lack of leader and starting an election
-        node1.tell(new StartElectionMessage(), ActorRef.noSender());
-        node2.tell(new StartElectionMessage(), ActorRef.noSender());
-        node6.tell(new SetNextNodeMessage(node2), ActorRef.noSender());
-        system.stop(node1);
+        scheduleElection(node1, system, 500);
 
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        node3.tell(new StartElectionMessage(), ActorRef.noSender());
+        // Simulate three processes noticing a lack of leader and starting an election
+        scheduleElection(node1, system, 1000);
+        scheduleElection(node2, system, 1000);
+        scheduleElection(node4, system, 1000);
 
-        node5.tell(new SetNextNodeMessage(node2), ActorRef.noSender());
-        system.stop(node6);
+        // Simulate two processes noticing a lack of leader and starting an election, then 1 of them stops
+        scheduleElection(node1, system, 1500);
+        scheduleElection(node2, system, 1500);
+        scheduleStopAndSetNextNode(node1, node6, node2, system, 1500);
+
+        // Simulate two processes noticing a lack of leader and starting an election, then the biggest UID stops
+        scheduleElection(node3, system, 2000);
+        scheduleStopAndSetNextNode(node6, node5, node2, system, 2000);
     }
 
+    private static void scheduleElection(ActorRef node, ActorSystem system, int delay) {
+        system.scheduler().scheduleOnce(
+                Duration.create(delay, TimeUnit.MILLISECONDS),
+                () -> node.tell(new StartElectionMessage(), ActorRef.noSender()),
+                system.dispatcher()
+        );
+    }
+
+    private static void scheduleStopAndSetNextNode(ActorRef node, ActorRef beforeNode, ActorRef nextNode, ActorSystem system, int delay) {
+        system.scheduler().scheduleOnce(
+                Duration.create(delay, TimeUnit.MILLISECONDS),
+                () -> {
+                    beforeNode.tell(new SetNextNodeMessage(nextNode), ActorRef.noSender());
+                    system.stop(node);
+                    System.out.println(node.path().name() + " being deleted");
+                },
+                system.dispatcher()
+        );
+    }
 }
-
-
-
-

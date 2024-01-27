@@ -10,11 +10,11 @@ Here are the priorities for the SLR203 patterns:
 
 10: top priority V 
 
-11: medium
+11: medium V
 
 12: low
 
-13: medium
+13: medium V
 
 14: very low
 

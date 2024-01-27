@@ -1,8 +1,11 @@
 package demo;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import scala.concurrent.duration.Duration;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ShortestLengthFloodingPattern {
 
@@ -54,50 +57,47 @@ public class ShortestLengthFloodingPattern {
             actors.get(i).tell(new ActorNode.InitMessage(knownActors), ActorRef.noSender());
         }
 
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         /*
         Run the algorithm by starting with actor A and answer those questions:
             - how many messages are received by P ?
             - What is the lowest value "length" received by P ?
          */
-        System.out.println("from A");
-        actors.get(0).tell(new ActorNode.ControlledFloodMessage(0, 0), ActorRef.noSender());
+        // Run the algorithm starting from actor A
+        system.scheduler().scheduleOnce(
+                Duration.create(500, TimeUnit.MILLISECONDS),
+                () -> {
+                    System.out.println("from A");
+                    actors.get(0).tell(new ActorNode.ControlledFloodMessage(0, 0), ActorRef.noSender());
+                },
+                system.dispatcher()
+        );
 
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        /*
-        Now run the algorithm by starting with actor L and answer those questions:
-            - how many messages are received by P ?
-            - What is the lowest value "length" received by P ?
-         */
-        System.out.println("from L");
-        actors.get(11).tell(new ActorNode.ControlledFloodMessage(1, 0), ActorRef.noSender());
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        /*
-        Now run the algorithm by starting with actor I and answer those questions:
-            - how many messages are received by Q ?
-            - What is the lowest value "length" received by Q ?
-         */
+        // Run the algorithm starting from actor L
+        system.scheduler().scheduleOnce(
+                Duration.create(1000, TimeUnit.MILLISECONDS),
+                () -> {
+                    System.out.println("from L");
+                    actors.get(11).tell(new ActorNode.ControlledFloodMessage(1, 0), ActorRef.noSender());
+                },
+                system.dispatcher()
+        );
 
-        System.out.println("from I");
-        actors.get(8).tell(new ActorNode.ControlledFloodMessage(2, 0), ActorRef.noSender());
-        try {
-            Thread.sleep(200);
-            system.terminate();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        // Run the algorithm starting from actor I
+        system.scheduler().scheduleOnce(
+                Duration.create(1500, TimeUnit.MILLISECONDS),
+                () -> {
+                    System.out.println("from I");
+                    actors.get(8).tell(new ActorNode.ControlledFloodMessage(2, 0), ActorRef.noSender());
+                },
+                system.dispatcher()
+        );
+
+        // Run the algorithm starting from actor I
+        system.scheduler().scheduleOnce(
+                Duration.create(2000, TimeUnit.MILLISECONDS),
+                system::terminate,
+                system.dispatcher()
+        );
     }
 }
 

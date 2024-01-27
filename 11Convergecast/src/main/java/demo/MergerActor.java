@@ -7,13 +7,7 @@ import akka.actor.Props;
 import java.util.HashSet;
 import java.util.Set;
 
-class JoinMessage {
-    final ActorRef sender;
 
-    JoinMessage(ActorRef sender) {
-        this.sender = sender;
-    }
-}
 
 class HiMessage {
     final String message;
@@ -31,6 +25,14 @@ class UnjoinMessage {
     }
 }
 
+class SetTargetMessage {
+    final ActorRef target;
+
+    SetTargetMessage(ActorRef target) {
+        this.target = target;
+    }
+}
+
 public class MergerActor extends AbstractActor {
     private final Set<ActorRef> participants = new HashSet<>();
     private ActorRef target;
@@ -43,6 +45,7 @@ public class MergerActor extends AbstractActor {
     @Override
     public Receive createReceive() {
         return receiveBuilder()
+                .match(SetTargetMessage.class, this::handleSetTarget)
                 .match(JoinMessage.class, this::handleJoin)
                 .match(HiMessage.class, this::handleHi)
                 .match(UnjoinMessage.class, this::handleUnjoin)
@@ -56,11 +59,13 @@ public class MergerActor extends AbstractActor {
 
     private void handleHi(HiMessage message) {
         hiCount++;
-        System.out.println(message.message);
+        System.out.println(getSender().path().name() + " sent: " + message.message);
 
         if (hiCount == participants.size()) {
             // All participants have sent their "hi" messages, notify the target
-            target.tell(new HiMessage("All participants said hi!"), self());
+            System.out.println("All participants said hi");
+            target.tell(new HiMessage("hi"), self());
+            hiCount = 0;
         }
     }
 
@@ -74,8 +79,8 @@ public class MergerActor extends AbstractActor {
         }
     }
 
-    void setTarget(ActorRef target) {
-        this.target = target;
+    private void handleSetTarget(SetTargetMessage message) {
+        this.target = message.target;
     }
 }
 

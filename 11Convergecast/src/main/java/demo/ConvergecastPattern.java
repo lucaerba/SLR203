@@ -19,14 +19,21 @@ public class ConvergecastPattern {
         ActorRef d = system.actorOf(ConvergecastActor.props("D"), "D");
 
         // Set up the convergence structure
-        merger.tell(new JoinMessage(a), ActorRef.noSender());
-        merger.tell(new JoinMessage(b), ActorRef.noSender());
-        merger.tell(new JoinMessage(c), ActorRef.noSender());
+        a.tell(new JoinMessage(merger), ActorRef.noSender());
+        b.tell(new JoinMessage(merger), ActorRef.noSender());
+        c.tell(new JoinMessage(merger), ActorRef.noSender());
         merger.tell(new SetTargetMessage(d), ActorRef.noSender());
 
-        // Schedule the "go" messages
+        //schedule c unjoin
         system.scheduler().scheduleOnce(
-                Duration.create(1, TimeUnit.SECONDS),
+                Duration.create(2000, TimeUnit.MILLISECONDS),
+                merger,
+                new UnjoinMessage(c),
+                system.dispatcher(),
+                ActorRef.noSender()
+        );
+        system.scheduler().scheduleOnce(
+                Duration.create(3, TimeUnit.SECONDS),
                 a,
                 new GoMessage(),
                 system.dispatcher(),
@@ -34,16 +41,8 @@ public class ConvergecastPattern {
         );
 
         system.scheduler().scheduleOnce(
-                Duration.create(1, TimeUnit.SECONDS),
+                Duration.create(3, TimeUnit.SECONDS),
                 b,
-                new GoMessage(),
-                system.dispatcher(),
-                ActorRef.noSender()
-        );
-
-        system.scheduler().scheduleOnce(
-                Duration.create(1, TimeUnit.SECONDS),
-                c,
                 new GoMessage(),
                 system.dispatcher(),
                 ActorRef.noSender()
@@ -51,7 +50,7 @@ public class ConvergecastPattern {
 
         // Shutdown the actor system after a delay
         system.scheduler().scheduleOnce(
-                Duration.create(3, TimeUnit.SECONDS),
+                Duration.create(6, TimeUnit.SECONDS),
                 system::terminate,
                 system.dispatcher()
         );
